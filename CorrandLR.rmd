@@ -1,0 +1,52 @@
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(GGally)
+library(lmtest)
+air = airquality
+```
+
+```{r}
+summary(air)
+str(air)
+```
+
+```{r}
+air2 = air %>% drop_na()
+```
+
+```{r}
+ggcorr(air2,label=TRUE)
+```
+
+```{r}
+air_simple = recipe(Ozone ~ Temp, air2)
+air_simple
+```
+
+```{r}
+lm_model=linear_reg() %>% set_engine("lm")
+```
+
+```{r}
+lm_wflow = workflow() %>%
+  add_model(lm_model) %>%
+  add_recipe(air_simple)
+```
+
+```{r}
+lm_fit = fit(lm_wflow,air2)
+```
+
+```{r}
+summary(lm_fit$fit$fit$fit)
+```
+
+```{r}
+confint(lm_fit$fit$fit$fit)
+```
+
+```{r}
+x= -147.6461 + 2.4391(80)
+```
+
